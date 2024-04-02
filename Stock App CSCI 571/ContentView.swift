@@ -23,34 +23,32 @@ struct ContentView: View {
             VStack {
             if !searchText.isEmpty {
                 List(searchResults) { result in
-                    VStack(alignment: .leading) {
-                        Text(result.displaySymbol)
-                            .font(.headline)
-                        Text(result.description)
-                            .font(.subheadline)
-                    }
-                    .onTapGesture {
-                        print("Selected: \(result.symbol)")
+                    NavigationLink(destination: Text(result.displaySymbol)){
+                        VStack(alignment: .leading) {
+                            Text(result.displaySymbol)
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.primary)
+                            Text(result.description)
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
-                .padding()
             }
                 if searchText.isEmpty{
                     List {
                         Section(header: Text("Portfolio")) {
-                            Text("Cash Balance: $25,000") // Initial cash balance
-                            Text("Net Worth: $25,000") // Initial net worth
-                            // List of stocks in the portfolio
-                            // You can replace this with dynamic data based on the user's portfolio
-                            ForEach(0..<3) { index in // Example data for demonstration
+                            Text("Cash Balance: $25,000")
+                            Text("Net Worth: $25,000")
+                            
+                            ForEach(0..<3) { index in
                                 StockRow(symbol: "AAPL", marketValue: "$1500", changeInPrice: "$200", changeInPricePercentage: "10%", totalSharesOwned: 10)
                             }
                         }
                         
                         Section(header: Text("Favorites")) {
-                            // List of favorite stocks
-                            // You can replace this with dynamic data based on the user's favorites
-                            ForEach(0..<3) { index in // Example data for demonstration
+                            ForEach(0..<3) { index in
                                 FavoriteStockRow(symbol: "GOOGL", currentPrice: "$2500", changeInPrice: "$100", changeInPricePercentage: "5%")
                             }
                         }
@@ -76,8 +74,7 @@ struct ContentView: View {
                                         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
                                             fetchAutocompleteResults(searchText: newSearchText) { results in
                                                 searchResults = results
-                                            
-                                        }
+                                            }
                                         }
                 }
             }
