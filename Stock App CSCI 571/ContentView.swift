@@ -113,28 +113,22 @@ func fetchAutocompleteResults(searchText: String, completionHandler: @escaping (
 func parseJSON(_ json: JSON) -> [SearchResult] {
     var results: [SearchResult] = []
     
-    // Check if JSON is an array
     guard let jsonArray = json.array else {
         print("JSON is not an array")
         return results
     }
-    
-    // Iterate through each JSON object in the array
+
     for jsonObject in jsonArray {
-        // Extract values from the JSON object
+
         guard let description = jsonObject["description"].string,
               let type = jsonObject["type"].string,
               let symbol = jsonObject["symbol"].string,
               let displaySymbol = jsonObject["displaySymbol"].string else {
-            // If any required value is missing, skip this object
             print("Missing required values in JSON object")
             continue
         }
-        
-        // Extract primary array if available
+
         let primary: [String]? = jsonObject["primary"].array?.compactMap { $0.string }
-        
-        // Create a SearchResult object and add it to the results array
         let result = SearchResult(description: description, type: type, symbol: symbol, displaySymbol: displaySymbol, primary: primary)
         results.append(result)
     }

@@ -14,25 +14,50 @@ import Foundation
 struct StockData: View {
     let displaySymbol:String
     @State private var stockData: JSON = JSON()
+    @State private var isLoading = true
+    
 
     var body: some View {
-        NavigationView{
-//            if let stockData = stockData {
-                Text("Display Symbol: \(displaySymbol)")
-                    .navigationTitle(displaySymbol)
-                    .task {
-                        fetchStockData(searchText: displaySymbol) { json in
-                            stockData = json
-                            print(stockData["peers"])
-                        }
-                    }
-//            } else {
-//                // Placeholder view while data is loading
-//                ProgressView()
-//            }
+        NavigationView {
+            if isLoading {
+                VStack {
+                    ProgressView()
+                    Text("Fetching Data...")
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                VStack(alignment: .leading) {
+                                    Text("\(stockData["profile"]["name"])")
+                                        .font(.body)
+                                        .foregroundColor(.secondary)
+                        
+                                    HStack {
+                                        Text("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
+                                            .foregroundColor(.primary)
+                                            .font(.title)
+                                            .bold()
+                                        Text("Change: ")
+                                            .foregroundColor(.primary)
+//                                        Text("$\(stockData["changePrice"].doubleValue)")
+//                                            .foregroundColor(changeColor(stockData["changePrice"].doubleValue))
+                                        Text("(\(stockData["changePercentage"].doubleValue)%)")
+                                            .foregroundColor(.primary)
+                                    }
+                                    Spacer()
+                }
+                .navigationTitle(displaySymbol)
+            }
+        }
+        .onAppear {
+            fetchStockData(searchText: displaySymbol) { json in
+                stockData = json
+                print(stockData["quote"])
+                isLoading = false
+            }
         }
     }
-}
+
+    }
 func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> Void) {
     AF.request("http://localhost:8080/search/\(searchText)")
         .validate()
@@ -40,7 +65,6 @@ func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> V
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-//                print(json)
                 completionHandler(json)
             case .failure(let error):
                 print("Error fetching data: \(error)")
