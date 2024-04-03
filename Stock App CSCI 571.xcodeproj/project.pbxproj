@@ -11,6 +11,7 @@
 		40521FFA2BBBCF56000535EC /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 40521FF92BBBCF56000535EC /* AlamofireDynamic */; };
 		40521FFD2BBBCFED000535EC /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 40521FFC2BBBCFED000535EC /* SwiftyJSON */; };
 		40521FFF2BBCBDB3000535EC /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40521FFE2BBCBDB3000535EC /* SearchResult.swift */; };
+		405220012BBCD91F000535EC /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405220002BBCD91F000535EC /* StockData.swift */; };
 		4065F4A72BBB5D610038635C /* Stock_App_CSCI_571App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065F4A62BBB5D610038635C /* Stock_App_CSCI_571App.swift */; };
 		4065F4A92BBB5D610038635C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065F4A82BBB5D610038635C /* ContentView.swift */; };
 		4065F4AB2BBB5D630038635C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4065F4AA2BBB5D630038635C /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		40521FFE2BBCBDB3000535EC /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		405220002BBCD91F000535EC /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
 		4065F4A32BBB5D610038635C /* Stock App CSCI 571.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stock App CSCI 571.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4065F4A62BBB5D610038635C /* Stock_App_CSCI_571App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock_App_CSCI_571App.swift; sourceTree = "<group>"; };
 		4065F4A82BBB5D610038635C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				4065F4AA2BBB5D630038635C /* Assets.xcassets */,
 				4065F4AC2BBB5D630038635C /* Preview Content */,
 				40521FFE2BBCBDB3000535EC /* SearchResult.swift */,
+				405220002BBCD91F000535EC /* StockData.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				405220012BBCD91F000535EC /* StockData.swift in Sources */,
 				4065F4A92BBB5D610038635C /* ContentView.swift in Sources */,
 				40521FFF2BBCBDB3000535EC /* SearchResult.swift in Sources */,
 				4065F4A72BBB5D610038635C /* Stock_App_CSCI_571App.swift in Sources */,

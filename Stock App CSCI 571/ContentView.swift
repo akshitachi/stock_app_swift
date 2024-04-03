@@ -8,6 +8,7 @@
 import SwiftUI
 import Alamofire
 import SwiftyJSON
+import UIKit
 
 struct ContentView: View {
     @State private var searchText = ""
@@ -15,15 +16,12 @@ struct ContentView: View {
     @State private var searchResults: [SearchResult] = []
     @State private var debounceTimer: Timer?
     
-//    var filteredSearchResults: [SearchResult] {
-//        return searchResults.filter{$0.}
-//    }
     var body: some View {
         NavigationView {
             VStack {
             if !searchText.isEmpty {
                 List(searchResults) { result in
-                    NavigationLink(destination: Text(result.displaySymbol)){
+                    NavigationLink(destination: StockData(displaySymbol: result.displaySymbol)){
                         VStack(alignment: .leading) {
                             Text(result.displaySymbol)
                                 .font(.title2)
@@ -36,27 +34,33 @@ struct ContentView: View {
                     }
                 }
             }
-                if searchText.isEmpty{
+                if searchText.isEmpty {
                     List {
-                        Section(header: Text("Portfolio")) {
-                            Text("Cash Balance: $25,000")
-                            Text("Net Worth: $25,000")
-                            
-                            ForEach(0..<3) { index in
-                                StockRow(symbol: "AAPL", marketValue: "$1500", changeInPrice: "$200", changeInPricePercentage: "10%", totalSharesOwned: 10)
-                            }
+                        Section {
+                            Text(currentDateFormatted())
+                            .font(.title)
+                            .foregroundColor(.secondary)
+                            .bold()
+                            .padding(.vertical, 10)
                         }
                         
-                        Section(header: Text("Favorites")) {
-                            ForEach(0..<3) { index in
-                                FavoriteStockRow(symbol: "GOOGL", currentPrice: "$2500", changeInPrice: "$100", changeInPricePercentage: "5%")
+                        Section{
+                            Button(action: {
+                                if let url = URL(string: "https://finnhub.io") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }) {
+                                Text("Powered by finnhub.io")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                                    .padding(.vertical, 10)
+                                    .frame(maxWidth: .infinity, alignment: .center)
                             }
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                 }
-
         }
-              
                 .navigationTitle("Stocks")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -64,11 +68,6 @@ struct ContentView: View {
                 }
                 }
                 .searchable(text: $searchText)
-//                    onSubmit(of: .search) { 
-//                                        fetchAutocompleteResults(searchText: searchText) { results in
-//                                            searchResults = results
-//                                        }
-//                                    }
                 .onChange(of: searchText) { newSearchText in
                                         debounceTimer?.invalidate()
                                         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
@@ -141,6 +140,12 @@ func parseJSON(_ json: JSON) -> [SearchResult] {
     }
     
     return results
+}
+
+func currentDateFormatted() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MMMM d, yyyy"
+    return dateFormatter.string(from: Date())
 }
 
 
