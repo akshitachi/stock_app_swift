@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .chart-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chartContainer" class="chart-container"></div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const chartContainer = document.getElementById('chartContainer');
+    const ticker = '{{ symbol }}';
+    const color = '{{ color }}';
+
+    fetch(`https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getchart/${ticker}?isMarketOpen=true`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const hourlyChart = [];
+        data.forEach(item => {
+            let tempTime = new Date(item.t);
+            hourlyChart.push([item.t, item.c]);
+        });
+
+        const options = {
+            chart: {
+                backgroundColor: '#F8F8F8',
+                height: 380
+            },
+            title: {
+                text: `${ticker} Hourly Price Variation`,
+                style: {
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color: 'grey'
+                }
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: {
+                    hour: '%H:%M'
+                },
+            },
+            tooltip: {
+                split: true,
+            },
+            yAxis: {
+                opposite: true,
+                title: null,
+            },
+            scrollbar: {
+                enabled: true
+            },
+            legend: {
+                enabled: false
+            },
+            navigator: {
+                enabled: true
+            },
+            plotOptions: {
+                series: {
+                    marker: {
+                        enabled: false
+                    },
+                },
+            },
+            series: [{
+                name: `${ticker}`,
+                data: hourlyChart,
+                type: 'line',
+                color: color, 
+                tooltip: {
+                    valueDecimals: 2
+                },
+                marker: false,
+                pointPlacement: 'on',
+                showInLegend: false,
+            }]
+        };
+
+        Highcharts.chart(chartContainer, options);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  });
+</script>
+
+</body>
+</html>

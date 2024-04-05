@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charts</title>
+  <style>
+    .chart-container {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chartContainer" class="chart-container"></div>
+
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const chartContainer = document.getElementById('chartContainer');
+    const ticker = '{{ symbol }}';
+    fetch(`https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getohlc/${ticker}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.results);
+      const ohlcData = data.results;
+      if (!ohlcData) return;
+
+      const ohlc = [];
+      const volume = [];
+      const dataLength = data.count;
+      const groupingUnits = [
+        ['week', [1]],
+        ['month', [1, 2, 3, 4, 6]]
+      ];
+
+      for (let i = 0; i < dataLength; i += 1) {
+        ohlc.push([
+          ohlcData[i].t,
+          ohlcData[i].o,
+          ohlcData[i].h,
+          ohlcData[i].l,
+          ohlcData[i].c
+        ]);
+        volume.push([
+          ohlcData[i].t,
+          ohlcData[i].v
+        ]);
+      }
+
+      const options = {
+        chart: {
+          backgroundColor: '#F8F8F8',
+          height: 380
+        },
+        rangeSelector: {
+          selected: 2
+        },
+        title: {
+          text: `${ticker} Historical`
+        },
+        subtitle: {
+          text: 'With SMA and Volume by Price technical indicators'
+        },
+        yAxis: [{
+          startOnTick: false,
+          opposite: true,
+          endOnTick: false,
+          lineColor: 'black',
+          title: {
+            text: 'OHLC'
+          },
+          height: '60%',
+          lineWidth: 2,
+          resize: {
+            enabled: true
+          }
+        }, {
+          opposite: true,
+          lineColor: 'black',
+          title: {
+            text: 'Volume'
+          },
+          top: '65%',
+          height: '35%',
+          offset: 0,
+          lineWidth: 2
+        }],
+        tooltip: {
+          split: true
+        },
+        plotOptions: {
+          series: {
+            dataGrouping: {
+              units: groupingUnits
+            }
+          },
+          column: {
+            color: '#524EA0'
+          }
+        },
+        series: [{
+          type: 'candlestick',
+          name: `${ticker}`,
+          id: 'aapl',
+          zIndex: 2,
+          data: ohlc
+        }, {
+          type: 'column',
+          name: 'Volume',
+          id: 'volume',
+          data: volume,
+          yAxis: 1
+        }, {
+          type: 'vbp',
+          linkedTo: 'aapl',
+          params: {
+            volumeSeriesID: 'volume'
+          },
+          dataLabels: {
+            enabled: false
+          },
+          zoneLines: {
+            enabled: false
+          }
+        }, {
+          type: 'sma',
+          linkedTo: 'aapl',
+          zIndex: 1,
+          marker: {
+            enabled: false
+          },
+          color: '#C1907A'
+        }]
+      };
+
+      Highcharts.stockChart(chartContainer, options);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  });
+</script>
+
+</body>
+</html>
+

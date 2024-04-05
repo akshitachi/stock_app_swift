@@ -19,6 +19,9 @@
 		4065F4B82BBB5D630038635C /* Stock_App_CSCI_571Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065F4B72BBB5D630038635C /* Stock_App_CSCI_571Tests.swift */; };
 		4065F4C22BBB5D630038635C /* Stock_App_CSCI_571UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065F4C12BBB5D630038635C /* Stock_App_CSCI_571UITests.swift */; };
 		4065F4C42BBB5D630038635C /* Stock_App_CSCI_571UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065F4C32BBB5D630038635C /* Stock_App_CSCI_571UITestsLaunchTests.swift */; };
+		40898BDF2BBF9A340023FDE1 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 40898BDE2BBF9A340023FDE1 /* index.html */; };
+		40898BE32BC077FF0023FDE1 /* historical.html in Resources */ = {isa = PBXBuildFile; fileRef = 40898BE22BC077FF0023FDE1 /* historical.html */; };
+		40898BE52BC0826C0023FDE1 /* StockPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		4065F4BD2BBB5D630038635C /* Stock App CSCI 571UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Stock App CSCI 571UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4065F4C12BBB5D630038635C /* Stock_App_CSCI_571UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock_App_CSCI_571UITests.swift; sourceTree = "<group>"; };
 		4065F4C32BBB5D630038635C /* Stock_App_CSCI_571UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock_App_CSCI_571UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		40898BDE2BBF9A340023FDE1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		40898BE22BC077FF0023FDE1 /* historical.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = historical.html; sourceTree = "<group>"; };
+		40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPortfolioView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,9 @@
 				4065F4AC2BBB5D630038635C /* Preview Content */,
 				40521FFE2BBCBDB3000535EC /* SearchResult.swift */,
 				405220002BBCD91F000535EC /* StockData.swift */,
+				40898BDE2BBF9A340023FDE1 /* index.html */,
+				40898BE22BC077FF0023FDE1 /* historical.html */,
+				40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -252,6 +261,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40898BE32BC077FF0023FDE1 /* historical.html in Resources */,
+				40898BDF2BBF9A340023FDE1 /* index.html in Resources */,
 				4065F4AE2BBB5D630038635C /* Preview Assets.xcassets in Resources */,
 				4065F4AB2BBB5D630038635C /* Assets.xcassets in Resources */,
 			);
@@ -280,6 +291,7 @@
 			files = (
 				405220012BBCD91F000535EC /* StockData.swift in Sources */,
 				4065F4A92BBB5D610038635C /* ContentView.swift in Sources */,
+				40898BE52BC0826C0023FDE1 /* StockPortfolioView.swift in Sources */,
 				40521FFF2BBCBDB3000535EC /* SearchResult.swift in Sources */,
 				4065F4A72BBB5D610038635C /* Stock_App_CSCI_571App.swift in Sources */,
 			);

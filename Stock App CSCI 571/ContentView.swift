@@ -21,7 +21,9 @@ struct ContentView: View {
             VStack {
             if !searchText.isEmpty {
                 List(searchResults) { result in
-                    NavigationLink(destination: StockData(displaySymbol: result.displaySymbol)){
+                    NavigationLink{StockData(displaySymbol: result.displaySymbol)}
+                label:
+                    {
                         VStack(alignment: .leading) {
                             Text(result.displaySymbol)
                                 .font(.title2)
@@ -58,7 +60,6 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .listRowInsets(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                 }
         }
                 .navigationTitle("Stocks")
@@ -141,51 +142,43 @@ func currentDateFormatted() -> String {
     dateFormatter.dateFormat = "MMMM d, yyyy"
     return dateFormatter.string(from: Date())
 }
-
-
-
-
-struct StockRow: View {
-    let symbol: String
-    let marketValue: String
-    let changeInPrice: String
-    let changeInPricePercentage: String
-    let totalSharesOwned: Int
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Symbol: \(symbol)")
-            Text("Market Value: \(marketValue)")
-            Text("Change In Price: \(changeInPrice)")
-            Text("Change In Price Percentage: \(changeInPricePercentage)")
-            Text("Total Shares Owned: \(totalSharesOwned)")
-        }
-    }
-}
-
-struct FavoriteStockRow: View {
-    let symbol: String
-    let currentPrice: String
-    let changeInPrice: String
-    let changeInPricePercentage: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Symbol: \(symbol)")
-            Text("Current Price: \(currentPrice)")
-            Text("Change In Price: \(changeInPrice)")
-            Text("Change In Price Percentage: \(changeInPricePercentage)")
-        }
-    }
-}
+//
+//struct StockRow: View {
+//    let symbol: String
+//    let marketValue: String
+//    let changeInPrice: String
+//    let changeInPricePercentage: String
+//    let totalSharesOwned: Int
+//    
+//    var body: some View {
+//        VStack(alignment: .leading) {
+//            Text("Symbol: \(symbol)")
+//            Text("Market Value: \(marketValue)")
+//            Text("Change In Price: \(changeInPrice)")
+//            Text("Change In Price Percentage: \(changeInPricePercentage)")
+//            Text("Total Shares Owned: \(totalSharesOwned)")
+//        }
+//    }
+//}
+//
+//struct FavoriteStockRow: View {
+//    let symbol: String
+//    let currentPrice: String
+//    let changeInPrice: String
+//    let changeInPricePercentage: String
+//    
+//    var body: some View {
+//        VStack(alignment: .leading) {
+//            Text("Symbol: \(symbol)")
+//            Text("Current Price: \(currentPrice)")
+//            Text("Change In Price: \(changeInPrice)")
+//            Text("Change In Price Percentage: \(changeInPricePercentage)")
+//        }
+//    }
+//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
-}
-
-
-#Preview {
-    ContentView()
 }
