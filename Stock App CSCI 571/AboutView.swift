@@ -14,56 +14,49 @@ struct AboutView: View {
         let webpage: String
         let peers: [String]
 
-  var body: some View {
-    VStack(alignment: .leading) {
-      Text("About")
-        .font(.title)
-        .padding(.bottom,10)
-      HStack(spacing: 16) {
-        VStack(alignment: .leading, spacing: 8) {
-          Text("IPO Start Date:")
-                .font(.callout)
-            .bold()
-          Text("Industry:")
-                .font(.callout)
-            .bold()
-          Text("Webpage:")
-                .font(.callout)
-            .bold()
-          Text("Company Peers:")
-                .font(.callout)
-            .bold()
-        }
-        VStack(alignment: .leading, spacing: 8) {
-          Text("\(ipoDate)")
-            .font(.callout)
-          Text("\(industry)")
-            .font(.callout)
-          Link(destination: URL(string: webpage)!) {
-            Text("\(webpage)")
-              .font(.callout)
-          }
-            ScrollView(.horizontal) {
-                                    HStack(spacing: 2) {
-                                        ForEach(peers, id: \.self) { peer in
-                                            NavigationLink(destination: StockData(displaySymbol: peer)) {
-                                                    Text("\(peer), ")
-                                                    .font(.callout)
-                                                    .foregroundColor(.blue)
-                                                                            }
-//                                            Button(action: {
-//                                                
-//                                            }) {
-//                                                Text("\(peer), ")
-//                                                    .font(.callout)
-//                                                    .foregroundColor(.blue)
-//                                            }
-                                        }
-                                    }
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("About")
+                .font(.title)
+                .padding(.bottom,10)
+            HStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("IPO Start Date:")
+                        .font(.callout)
+                        .bold()
+                    Text("Industry:")
+                        .font(.callout)
+                        .bold()
+                    Text("Webpage:")
+                        .font(.callout)
+                        .bold()
+                    Text("Company Peers:")
+                        .font(.callout)
+                        .bold()
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("\(ipoDate)")
+                        .font(.callout)
+                    Text("\(industry)")
+                        .font(.callout)
+                    Link(destination: URL(string: webpage)!) {
+                        Text("\(webpage)")
+                            .font(.callout)
+                    }
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 2) {
+                            ForEach(peers, id: \.self) { peer in
+                                NavigationLink(destination: StockData(displaySymbol: peer)) {
+                                    Text("\(peer), ")
+                                        .font(.callout)
+                                        .foregroundColor(.blue)
                                 }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
     .padding()
   }
 }
