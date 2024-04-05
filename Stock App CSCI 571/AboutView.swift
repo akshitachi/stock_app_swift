@@ -46,13 +46,18 @@ struct AboutView: View {
             ScrollView(.horizontal) {
                                     HStack(spacing: 2) {
                                         ForEach(peers, id: \.self) { peer in
-                                            Button(action: {
-                                                // Handle tapping on peer if needed
-                                            }) {
-                                                Text("\(peer), ")
+                                            NavigationLink(destination: StockData(displaySymbol: peer)) {
+                                                    Text("\(peer), ")
                                                     .font(.callout)
                                                     .foregroundColor(.blue)
-                                            }
+                                                                            }
+//                                            Button(action: {
+//                                                
+//                                            }) {
+//                                                Text("\(peer), ")
+//                                                    .font(.callout)
+//                                                    .foregroundColor(.blue)
+//                                            }
                                         }
                                     }
                                 }

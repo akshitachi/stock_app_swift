@@ -103,7 +103,8 @@ struct StockData: View {
                                                           ipoDate: stockData["profile"]["ipo"].stringValue,
                                                           industry: stockData["profile"]["finnhubIndustry"].stringValue,
                                                           webpage: stockData["profile"]["weburl"].stringValue,
-                                                          peers: stockData["peers"].arrayValue.map { $0.stringValue })
+                                                          peers: stockData["peers"].arrayValue.map { $0.stringValue }
+                        )
                     }
                 }
             }
