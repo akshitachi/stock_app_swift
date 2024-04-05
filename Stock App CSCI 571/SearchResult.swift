@@ -14,3 +14,11 @@ struct SearchResult:Identifiable {
         var displaySymbol: String
         var primary: [String]?
 }
+
+struct StockStats:Identifiable {
+    var id = UUID()
+    var highPrice: String
+    var openPrice: String
+    var lowPrice: String
+    var previousClose: String
+}

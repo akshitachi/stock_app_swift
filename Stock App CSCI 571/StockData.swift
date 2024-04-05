@@ -92,6 +92,13 @@ struct StockData: View {
 //                        tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(height: 460)
                         StockPortfolio()
+                        let stats = StockStats(
+                            highPrice: String("$\(String(format: "%.2f", stockData["quote"]["h"].doubleValue))"),
+                                                    openPrice: String("$\(String(format: "%.2f", stockData["quote"]["o"].doubleValue))"),
+                                                    lowPrice: String("$\(String(format: "%.2f", stockData["quote"]["l"].doubleValue))"),
+                                                    previousClose: String("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
+                                                )
+                        StockStatsView(stats:stats)
                     }
                 }
             }
