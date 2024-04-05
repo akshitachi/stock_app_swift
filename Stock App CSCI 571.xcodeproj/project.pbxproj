@@ -23,6 +23,7 @@
 		40898BE32BC077FF0023FDE1 /* historical.html in Resources */ = {isa = PBXBuildFile; fileRef = 40898BE22BC077FF0023FDE1 /* historical.html */; };
 		40898BE52BC0826C0023FDE1 /* StockPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */; };
 		40898BE72BC094380023FDE1 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE62BC094380023FDE1 /* StatView.swift */; };
+		40898BE92BC09FB60023FDE1 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE82BC09FB60023FDE1 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		40898BE22BC077FF0023FDE1 /* historical.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = historical.html; sourceTree = "<group>"; };
 		40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPortfolioView.swift; sourceTree = "<group>"; };
 		40898BE62BC094380023FDE1 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
+		40898BE82BC09FB60023FDE1 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				40898BE22BC077FF0023FDE1 /* historical.html */,
 				40898BE42BC0826C0023FDE1 /* StockPortfolioView.swift */,
 				40898BE62BC094380023FDE1 /* StatView.swift */,
+				40898BE82BC09FB60023FDE1 /* AboutView.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40898BE72BC094380023FDE1 /* StatView.swift in Sources */,
+				40898BE92BC09FB60023FDE1 /* AboutView.swift in Sources */,
 				405220012BBCD91F000535EC /* StockData.swift in Sources */,
 				4065F4A92BBB5D610038635C /* ContentView.swift in Sources */,
 				40898BE52BC0826C0023FDE1 /* StockPortfolioView.swift in Sources */,

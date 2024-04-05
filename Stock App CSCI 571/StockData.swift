@@ -99,6 +99,11 @@ struct StockData: View {
                                                     previousClose: String("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
                                                 )
                         StockStatsView(stats:stats)
+                        AboutView(companyName: stockData["profile"]["name"].stringValue,
+                                                          ipoDate: stockData["profile"]["ipo"].stringValue,
+                                                          industry: stockData["profile"]["finnhubIndustry"].stringValue,
+                                                          webpage: stockData["profile"]["weburl"].stringValue,
+                                                          peers: stockData["peers"].arrayValue.map { $0.stringValue })
                     }
                 }
             }
