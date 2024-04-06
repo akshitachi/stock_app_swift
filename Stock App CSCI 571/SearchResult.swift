@@ -22,3 +22,4 @@ struct StockStats:Identifiable {
     var lowPrice: String
     var previousClose: String
 }
+

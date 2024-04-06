@@ -12,7 +12,7 @@ import WebKit
 
 struct HighchartsView: UIViewRepresentable {
     let htmlFileName: String
-    let displaySymbol: String // Symbol to be passed to HTML file
+    let displaySymbol: String
     let color: String
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -40,7 +40,12 @@ struct StockData: View {
     @State private var stockData: JSON = JSON()
     @State private var isLoading = true
     @State private var selectedTab = 0
-
+    @State private var aggregatedMspr: Double = 0
+    @State private var positiveMspr: Double = 0
+    @State private var negativeMspr: Double = 0
+    @State private var aggregatedChange: Int = 0
+    @State private var positiveChange: Int = 0
+    @State private var negativeChange: Int = 0
     var body: some View {
         NavigationView {
             if isLoading {
@@ -89,7 +94,6 @@ struct StockData: View {
                                 }
                                 .tag(1)
                         }
-//                        tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(height: 460)
                         StockPortfolio()
                         let stats = StockStats(
@@ -105,6 +109,7 @@ struct StockData: View {
                                                           webpage: stockData["profile"]["weburl"].stringValue,
                                                           peers: stockData["peers"].arrayValue.map { $0.stringValue }
                         )
+                        InsightsView(totalMSPR: aggregatedMspr, positiveMSPR: positiveMspr, negativeMSPR: negativeMspr, totalChange: aggregatedChange, positiveChange: positiveChange, negativeChange: negativeChange,ticker: "\(stockData["profile"]["name"])")
                     }
                 }
             }
@@ -112,6 +117,29 @@ struct StockData: View {
         .onAppear {
             fetchStockData(searchText: displaySymbol) { json in
                 stockData = json
+                if let insiderSentimentData = stockData["insiderSentiment"]["data"].array {
+                    insiderSentimentData.forEach { dataPoint in
+                        if let mspr = dataPoint["mspr"].double {
+                            aggregatedMspr += mspr
+                        }
+                        if let mspr = dataPoint["mspr"].double, mspr > 0 {
+                                    positiveMspr += mspr
+                        }
+                        if let mspr = dataPoint["mspr"].double, mspr < 0 {
+                                    negativeMspr += mspr
+                        }
+                        if let change = dataPoint["change"].int {
+                            aggregatedChange += change
+                        }
+                        if let change = dataPoint["change"].int, change > 0 {
+                                    positiveChange += change
+                        }
+                        if let change = dataPoint["change"].int, change < 0 {
+                                    negativeChange += change
+                        }
+                    }
+                }
+
                 print(stockData["quote"])
                 isLoading = false
             }
@@ -119,6 +147,8 @@ struct StockData: View {
     }
 
     }
+
+
 
 private func arrowImageName(for value: Double) -> String {
         if value > 0 {
