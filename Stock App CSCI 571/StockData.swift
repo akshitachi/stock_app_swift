@@ -35,6 +35,31 @@ struct HighchartsView: UIViewRepresentable {
     }
 }
 
+struct HighchartsView2: UIViewRepresentable {
+    let htmlFileName: String
+    let displaySymbol: String
+    let color: String
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        if let htmlPath = Bundle.main.path(forResource: htmlFileName, ofType: "html") {
+            do {
+                var htmlString = try String(contentsOfFile: htmlPath)
+                // Inject displaySymbol into HTML file
+                htmlString = htmlString.replacingOccurrences(of: "{{ symbol }}", with: displaySymbol)
+                htmlString = htmlString.replacingOccurrences(of: "{{ color }}", with: color)
+                webView.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
+            } catch {
+                print("Error loading HTML file: \(error)")
+            }
+        }
+        return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // Update the view if needed
+    }
+}
+
 struct StockData: View {
     let displaySymbol:String
     @State private var stockData: JSON = JSON()
@@ -110,6 +135,7 @@ struct StockData: View {
                                                           peers: stockData["peers"].arrayValue.map { $0.stringValue }
                         )
                         InsightsView(totalMSPR: aggregatedMspr, positiveMSPR: positiveMspr, negativeMSPR: negativeMspr, totalChange: aggregatedChange, positiveChange: positiveChange, negativeChange: negativeChange,ticker: "\(stockData["profile"]["name"])")
+                        HighchartsView(htmlFileName: "earnings", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 460)
                     }
                 }
             }
@@ -140,7 +166,7 @@ struct StockData: View {
                     }
                 }
 
-                print(stockData["quote"])
+//                print(stockData["quote"])
                 isLoading = false
             }
         }
@@ -197,6 +223,6 @@ func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> V
 }
 struct StockData_Previews : PreviewProvider {
     static var previews : some View {
-       StockData(displaySymbol: "NVDA")
+       StockData(displaySymbol: "AAPL")
     }
 }

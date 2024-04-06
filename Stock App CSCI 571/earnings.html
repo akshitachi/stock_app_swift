@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings Chart</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <div id="earningsChart" class="chart-indicator"></div>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const earningsChart = document.getElementById('earningsChart');
+            const ticker = '{{ symbol }}';
+            const color = '{{ color }}';
+            fetch(`http://localhost:8080/getEarningsChart/${ticker}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const earningsData = data;
+                if (!earningsData) {
+                    throw new Error('Earnings data not found in response');
+                }
+
+                const actual = earningsData.map(earning => earning.actual);
+                const estimate = earningsData.map(earning => earning.estimate);
+                const time = earningsData.map(earning => earning.period + "<br>Surprise: " + earning.surprise);
+
+                const surpriseOptions = {
+                    chart: {
+                        type: 'line',
+                        width: 380,
+                        backgroundColor: '#F8F8F8',
+                    },
+                    title: {
+                        text: 'Historical EPS Surprises'
+                    },
+                    yAxis: {
+                        min: 0,
+                        tickAmount: 8,
+                        title: {
+                            text: 'Quarterly EPS'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 2,
+                            color: 'black',
+                            zIndex: 5
+                        }],
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    xAxis: {
+                        categories: time,
+                    },
+                    plotOptions: {},
+                    legend: {
+                        verticalAlign: 'bottom'
+                    },
+                    series: [{
+                        name: 'Actual',
+                        type: 'line',
+                        color: '#6AA0C9',
+                        data: actual
+                    }, {
+                        name: 'Estimate',
+                        type: 'line',
+                        color: '#534D95',
+                        data: estimate
+                    }],
+                };
+
+                Highcharts.chart(earningsChart, surpriseOptions);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+    </script>
+</body>
+</html>

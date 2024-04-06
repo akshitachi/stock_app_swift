@@ -25,6 +25,7 @@
 		40898BE72BC094380023FDE1 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE62BC094380023FDE1 /* StatView.swift */; };
 		40898BE92BC09FB60023FDE1 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BE82BC09FB60023FDE1 /* AboutView.swift */; };
 		40898BEB2BC0D55B0023FDE1 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BEA2BC0D55B0023FDE1 /* InsightsView.swift */; };
+		40898BEF2BC101450023FDE1 /* earnings.html in Resources */ = {isa = PBXBuildFile; fileRef = 40898BEE2BC101450023FDE1 /* earnings.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		40898BE62BC094380023FDE1 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
 		40898BE82BC09FB60023FDE1 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		40898BEA2BC0D55B0023FDE1 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		40898BEE2BC101450023FDE1 /* earnings.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = earnings.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				40898BE62BC094380023FDE1 /* StatView.swift */,
 				40898BE82BC09FB60023FDE1 /* AboutView.swift */,
 				40898BEA2BC0D55B0023FDE1 /* InsightsView.swift */,
+				40898BEE2BC101450023FDE1 /* earnings.html */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40898BE32BC077FF0023FDE1 /* historical.html in Resources */,
+				40898BEF2BC101450023FDE1 /* earnings.html in Resources */,
 				40898BDF2BBF9A340023FDE1 /* index.html in Resources */,
 				4065F4AE2BBB5D630038635C /* Preview Assets.xcassets in Resources */,
 				4065F4AB2BBB5D630038635C /* Assets.xcassets in Resources */,
