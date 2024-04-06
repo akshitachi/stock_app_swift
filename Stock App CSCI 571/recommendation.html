@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div id="recommendationChart" class="chart-indicator"></div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.23.0/axios.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const recommendationChart = document.getElementById('recommendationChart');
+
+    const ticker = '{{ symbol }}';
+    const color = '{{ color }}';
+    axios.get(`http://localhost:8080/getRecommendationChart/${ticker}`)
+      .then(response => {
+        const recommendationData = response.data;
+        if (recommendationData) {
+          const buy = [];
+          const strongBuy = [];
+          const sell = [];
+          const hold = [];
+          const strongSell = [];
+          const period = [];
+          let symbol = "";
+
+          recommendationData.forEach(data => {
+            buy.push(data["buy"]);
+            sell.push(data["sell"]);
+            period.push(data["period"]);
+            hold.push(data["hold"]);
+            strongBuy.push(data["strongBuy"]);
+            strongSell.push(data["strongSell"]);
+            symbol = data["symbol"];
+          });
+
+          const RecommChartOptions = {
+            chart: {
+              type: 'column',
+              width: 380,
+              backgroundColor: '#F8F8F8',
+            },
+            title: {
+              text: 'Recommendation Trends',
+              style: {
+                fontWeight: 'bold'
+              }
+            },
+            xAxis: {
+              categories: period
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: '#Analysis'
+              },
+              stackLabels: {
+                enabled: false,
+                style: {
+                  fontWeight: 'bold',
+                  color: 'gray'
+                }
+              }
+            },
+            legend: {
+              verticalAlign: 'bottom',
+            },
+            plotOptions: {
+              column: {
+                stacking: 'normal',
+                dataLabels: {
+                  enabled: true
+                }
+              }
+            },
+            series: [{
+              name: 'Strong Buy',
+              type: 'column',
+              color: '#365A41',
+              data: strongBuy
+            },
+            {
+              name: 'Buy',
+              type: 'column',
+              color: '#4FA25A',
+              data: buy
+            },
+            {
+              name: 'Hold',
+              type: 'column',
+              color: '#92782E',
+              data: hold
+            },
+            {
+              name: 'Sell',
+              type: 'column',
+              color: '#A25050',
+              data: sell
+            },
+            {
+              name: 'Strong Sell',
+              type: 'column',
+              color: '#602E2B',
+              data: strongSell
+            }]
+          };
+
+          Highcharts.chart(recommendationChart, RecommChartOptions);
+        } else {
+          console.error('Error fetching recommendation data');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+</script>
+
+</body>
+</html>

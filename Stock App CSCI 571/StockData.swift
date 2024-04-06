@@ -71,6 +71,8 @@ struct StockData: View {
     @State private var aggregatedChange: Int = 0
     @State private var positiveChange: Int = 0
     @State private var negativeChange: Int = 0
+    @State private var recommendationList: [Int] = []
+    
     var body: some View {
         NavigationView {
             if isLoading {
@@ -135,6 +137,7 @@ struct StockData: View {
                                                           peers: stockData["peers"].arrayValue.map { $0.stringValue }
                         )
                         InsightsView(totalMSPR: aggregatedMspr, positiveMSPR: positiveMspr, negativeMSPR: negativeMspr, totalChange: aggregatedChange, positiveChange: positiveChange, negativeChange: negativeChange,ticker: "\(stockData["profile"]["name"])")
+                        HighchartsView(htmlFileName: "recommendation", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 420)
                         HighchartsView(htmlFileName: "earnings", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 460)
                     }
                 }
@@ -165,8 +168,6 @@ struct StockData: View {
                         }
                     }
                 }
-
-//                print(stockData["quote"])
                 isLoading = false
             }
         }
