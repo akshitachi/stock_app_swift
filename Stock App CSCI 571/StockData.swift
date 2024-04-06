@@ -71,7 +71,7 @@ struct StockData: View {
     @State private var aggregatedChange: Int = 0
     @State private var positiveChange: Int = 0
     @State private var negativeChange: Int = 0
-    @State private var recommendationList: [Int] = []
+    @State private var newsList: [NewsItem] = []
     
     var body: some View {
         NavigationView {
@@ -138,7 +138,8 @@ struct StockData: View {
                         )
                         InsightsView(totalMSPR: aggregatedMspr, positiveMSPR: positiveMspr, negativeMSPR: negativeMspr, totalChange: aggregatedChange, positiveChange: positiveChange, negativeChange: negativeChange,ticker: "\(stockData["profile"]["name"])")
                         HighchartsView(htmlFileName: "recommendation", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 420)
-                        HighchartsView(htmlFileName: "earnings", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 460)
+                        HighchartsView(htmlFileName: "earnings", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 420)
+                        NewsView(news: newsList)
                     }
                 }
             }
@@ -168,6 +169,24 @@ struct StockData: View {
                         }
                     }
                 }
+                if let newsData = stockData["news"].array{
+                    newsData.forEach { dataPoint in
+                           if let related = dataPoint["related"].string,
+                              let category = dataPoint["category"].string,
+                              let headline = dataPoint["headline"].string,
+                              let url = dataPoint["url"].string,
+                              let datetime = dataPoint["datetime"].int,
+                              let id = dataPoint["id"].int,
+                              let source = dataPoint["source"].string,
+                              let summary = dataPoint["summary"].string,
+                              let image = dataPoint["image"].string {
+                               let newsItem = NewsItem(related: related, category: category, headline: headline, url: url, datetime: datetime, id: id, source: source, summary: summary, image: image)
+                            
+                               newsList.append(newsItem)
+                           }
+                       }
+                }
+                print(newsList)
                 isLoading = false
             }
         }

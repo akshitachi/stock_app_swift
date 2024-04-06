@@ -22,3 +22,15 @@ struct StockStats:Identifiable {
     var lowPrice: String
     var previousClose: String
 }
+
+struct NewsItem {
+    let related: String
+    let category: String
+    let headline: String
+    let url: String
+    let datetime: Int
+    let id: Int
+    let source: String
+    let summary: String
+    let image: String
+}
