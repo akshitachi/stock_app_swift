@@ -50,9 +50,7 @@ struct SheetView: View {
                                     .frame(width: 50, height: 50)
                                     .clipped()
                         }
-                    Button(action: {
-                            // Action to perform when Facebook icon is tapped
-                        }) {
+                    Link(destination: URL(string: "https://www.facebook.com/sharer/sharer.php?u=\(url)")!) {
                             Image("facebook")
                                 .resizable()
                                     .aspectRatio(contentMode: .fill)
