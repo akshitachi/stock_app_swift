@@ -29,6 +29,10 @@
 		40898BF12BC1C1B60023FDE1 /* recommendation.html in Resources */ = {isa = PBXBuildFile; fileRef = 40898BF02BC1C1B60023FDE1 /* recommendation.html */; };
 		40898BF32BC1C3A70023FDE1 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BF22BC1C3A70023FDE1 /* NewsView.swift */; };
 		40898BF62BC1CCD90023FDE1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 40898BF52BC1CCD90023FDE1 /* Kingfisher */; };
+		40898BF82BC228540023FDE1 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BF72BC228540023FDE1 /* SheetView.swift */; };
+		40898BFC2BC3223B0023FDE1 /* sl_z_072523_61700_05.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */; };
+		40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */; };
+		40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFB2BC3223B0023FDE1 /* app icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,10 @@
 		40898BEE2BC101450023FDE1 /* earnings.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = earnings.html; sourceTree = "<group>"; };
 		40898BF02BC1C1B60023FDE1 /* recommendation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = recommendation.html; sourceTree = "<group>"; };
 		40898BF22BC1C3A70023FDE1 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
+		40898BF72BC228540023FDE1 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sl_z_072523_61700_05.jpg; path = ../../Images_iOS/sl_z_072523_61700_05.jpg; sourceTree = "<group>"; };
+		40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "f_logo_RGB-Blue_144.png"; path = "../../Images_iOS/f_logo_RGB-Blue_144.png"; sourceTree = "<group>"; };
+		40898BFB2BC3223B0023FDE1 /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app icon.png"; path = "../../Images_iOS/app icon.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +135,9 @@
 				4065F4A62BBB5D610038635C /* Stock_App_CSCI_571App.swift */,
 				4065F4A82BBB5D610038635C /* ContentView.swift */,
 				4065F4AA2BBB5D630038635C /* Assets.xcassets */,
+				40898BFB2BC3223B0023FDE1 /* app icon.png */,
+				40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */,
+				40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */,
 				4065F4AC2BBB5D630038635C /* Preview Content */,
 				40521FFE2BBCBDB3000535EC /* SearchResult.swift */,
 				405220002BBCD91F000535EC /* StockData.swift */,
@@ -139,6 +150,7 @@
 				40898BEE2BC101450023FDE1 /* earnings.html */,
 				40898BF02BC1C1B60023FDE1 /* recommendation.html */,
 				40898BF22BC1C3A70023FDE1 /* NewsView.swift */,
+				40898BF72BC228540023FDE1 /* SheetView.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -284,11 +296,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				40898BE32BC077FF0023FDE1 /* historical.html in Resources */,
+				40898BFC2BC3223B0023FDE1 /* sl_z_072523_61700_05.jpg in Resources */,
 				40898BF12BC1C1B60023FDE1 /* recommendation.html in Resources */,
 				40898BEF2BC101450023FDE1 /* earnings.html in Resources */,
 				40898BDF2BBF9A340023FDE1 /* index.html in Resources */,
 				4065F4AE2BBB5D630038635C /* Preview Assets.xcassets in Resources */,
+				40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */,
 				4065F4AB2BBB5D630038635C /* Assets.xcassets in Resources */,
+				40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +330,7 @@
 			files = (
 				40898BE72BC094380023FDE1 /* StatView.swift in Sources */,
 				40898BEB2BC0D55B0023FDE1 /* InsightsView.swift in Sources */,
+				40898BF82BC228540023FDE1 /* SheetView.swift in Sources */,
 				40898BE92BC09FB60023FDE1 /* AboutView.swift in Sources */,
 				40898BF32BC1C3A70023FDE1 /* NewsView.swift in Sources */,
 				405220012BBCD91F000535EC /* StockData.swift in Sources */,
