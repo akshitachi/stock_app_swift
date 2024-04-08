@@ -15,6 +15,7 @@ struct StockPortfolio: View {
     @State private var avgCostPerShare: Double = 171.23
     @State private var portfolioData: JSON = JSON()
     @State private var quoteData: JSON = JSON()
+    @State private var showTradeSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -65,13 +66,17 @@ struct StockPortfolio: View {
                                 .font(.callout)
                         }
                         Spacer()
-                        Button(action: {}, label: {
+                        Button(action: {
+                            showTradeSheet.toggle()
+                        }) {
                             Text("Trade")
                                 .foregroundColor(.white)
                                 .frame(width: 140,height: 50)
                                 .background(Color.green)
                                 .cornerRadius(23)
-                        })
+                        }.sheet(isPresented: $showTradeSheet){
+                            TradeView(ticker:ticker,name:String("\(quoteData["profile"]["name"])"),cost: quoteData["quote"]["c"].doubleValue)
+                        }
                     }.padding()
                 }
         }
@@ -115,6 +120,20 @@ func fetchquote(ticker: String, completionHandler: @escaping (JSON) -> Void) {
             case .failure(let error):
                 print("Error fetching data: \(error)")
                 completionHandler([])
+            }
+        }
+}
+
+func tradeTicker(completionHandler: @escaping (Bool) -> Void) {
+    AF.request("http://localhost:8080/makeportfolio", method: .post)
+        .validate()
+        .response { response in
+            switch response.result {
+            case .success:
+                completionHandler(true) // Trade successful
+            case .failure(let error):
+                print("Error trading: \(error)")
+                completionHandler(false) // Trade failed
             }
         }
 }

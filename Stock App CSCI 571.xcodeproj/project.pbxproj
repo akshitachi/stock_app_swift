@@ -33,6 +33,7 @@
 		40898BFC2BC3223B0023FDE1 /* sl_z_072523_61700_05.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */; };
 		40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */; };
 		40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFB2BC3223B0023FDE1 /* app icon.png */; };
+		40F743BF2BC462C400A3B0A0 /* TradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F743BE2BC462C400A3B0A0 /* TradeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sl_z_072523_61700_05.jpg; path = ../../Images_iOS/sl_z_072523_61700_05.jpg; sourceTree = "<group>"; };
 		40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "f_logo_RGB-Blue_144.png"; path = "../../Images_iOS/f_logo_RGB-Blue_144.png"; sourceTree = "<group>"; };
 		40898BFB2BC3223B0023FDE1 /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app icon.png"; path = "../../Images_iOS/app icon.png"; sourceTree = "<group>"; };
+		40F743BE2BC462C400A3B0A0 /* TradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				40898BF02BC1C1B60023FDE1 /* recommendation.html */,
 				40898BF22BC1C3A70023FDE1 /* NewsView.swift */,
 				40898BF72BC228540023FDE1 /* SheetView.swift */,
+				40F743BE2BC462C400A3B0A0 /* TradeView.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				405220012BBCD91F000535EC /* StockData.swift in Sources */,
 				4065F4A92BBB5D610038635C /* ContentView.swift in Sources */,
 				40898BE52BC0826C0023FDE1 /* StockPortfolioView.swift in Sources */,
+				40F743BF2BC462C400A3B0A0 /* TradeView.swift in Sources */,
 				40521FFF2BBCBDB3000535EC /* SearchResult.swift in Sources */,
 				4065F4A72BBB5D610038635C /* Stock_App_CSCI_571App.swift in Sources */,
 			);

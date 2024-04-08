@@ -14,7 +14,7 @@ struct SheetView: View {
     @State var datetime: String
     @State var summary:String
     @State var url:String
-//    @State var twitterShare:String = "https://twitter.com/intent/tweet?text=\(headline)&url=\(url)"
+    
     var body: some View {
         NavigationView {
             VStack(alignment:.leading) {
@@ -75,8 +75,8 @@ struct SheetView: View {
         .accentColor(.black) 
     }
 }
-struct SheetView_Previews : PreviewProvider {
-    static var previews : some View {
-       StockData(displaySymbol: "AAPL")
-    }
-}
+//struct SheetView_Previews : PreviewProvider {
+//    static var previews : some View {
+//       StockData(displaySymbol: "AAPL")
+//    }
+//}

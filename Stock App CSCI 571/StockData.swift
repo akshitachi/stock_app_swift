@@ -74,7 +74,7 @@ struct StockData: View {
     @State private var newsList: [NewsItem] = []
     
     var body: some View {
-        NavigationView {
+        VStack {
             if isLoading {
                 VStack {
                     ProgressView()
@@ -186,6 +186,7 @@ struct StockData: View {
                            }
                        }
                 }
+                print(newsList)
                 isLoading = false
             }
         }
