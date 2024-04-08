@@ -122,7 +122,7 @@ struct StockData: View {
                                 .tag(1)
                         }
                         .frame(height: 460)
-                        StockPortfolio()
+                        StockPortfolio(ticker: displaySymbol)
                         let stats = StockStats(
                             highPrice: String("$\(String(format: "%.2f", stockData["quote"]["h"].doubleValue))"),
                                                     openPrice: String("$\(String(format: "%.2f", stockData["quote"]["o"].doubleValue))"),
@@ -186,7 +186,6 @@ struct StockData: View {
                            }
                        }
                 }
-                print(newsList)
                 isLoading = false
             }
         }

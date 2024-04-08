@@ -6,40 +6,60 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 struct StockPortfolio: View {
-    
+    @State var ticker:String
     @State private var shareCount: Int = 0
     @State private var avgCostPerShare: Double = 171.23
+    @State private var portfolioData: JSON = JSON()
+    @State private var quoteData: JSON = JSON()
     
     var body: some View {
         VStack(alignment: .leading) {
                 Text("Portfolio")
                     .font(.title)
                     .padding()
-                if shareCount > 0 {
+            if !portfolioData.isEmpty {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Shares Owned: \(shareCount)")
-                            Text("Avg. Cost / Share: $\(avgCostPerShare, specifier: "%.2f")")
-                            //                        Text("Total Cost: $\((shareCount * avgCostPerShare), specifier: "%.2f")")
-                            Text("Change: $\(-0.42, specifier: "%.2f")")
-                            //                        Text("Market Value: $\((shareCount * avgCostPerShare), specifier: "%.2f")")
+                            HStack{
+                                Text("Shares Owned: ").bold()
+                                Text("\(portfolioData["quantity"])")
+                            }.padding(.bottom,15)
+                            HStack{
+                                Text("Avg. Cost / Share: ").bold()
+                            Text("$\(portfolioData["avgCost"])")
+                            }.padding(.bottom,15)
+          
+                            HStack{Text("Total Cost:").bold()
+                                Text("$\(portfolioData["totalCost"])")
+                            }.padding(.bottom,15)
+                            HStack{
+                                Text("Change: ").bold()
+                                let change = portfolioData["avgCost"].doubleValue - quoteData["quote"]["c"].doubleValue
+                                let roundedChange = String(format: "%.2f", change)
+                                Text("$\(roundedChange)")
+                            }.padding(.bottom,15)
+                            HStack{
+                                Text("Market Value: ").bold()
+                                Text("$\(quoteData["quote"]["c"])")
+                            }.padding(.bottom,15)
                         }
-                        //                    Spacer()
+                                            Spacer()
                         Button(action: {}, label: {
                             Text("Trade")
-                                .foregroundColor(.green)
-                                .padding(.vertical)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.green.opacity(0.2))
-                                .cornerRadius(10)
+                                .foregroundColor(.white)
+                                .frame(width: 140,height: 50)
+                                .background(Color.green)
+                                .cornerRadius(23)
                         })
-                    }
+                    }.padding()
                 } else {
                     HStack{
                         VStack(alignment: .leading){
-                            Text("You have 0 shares of AAPL.")
+                            Text("You have 0 shares of \(ticker).")
                                 .font(.callout)
                             Text("Start trading!")
                                 .font(.callout)
@@ -55,17 +75,52 @@ struct StockPortfolio: View {
                     }.padding()
                 }
         }
+        .onAppear{
+            fetchportfolio(ticker: ticker) { json in
+                portfolioData = json
+//                print(portfolioData)
+            }
+            fetchquote(ticker: ticker) { json in
+                quoteData = json
+                print(quoteData)
+            }
+        }
         
     }
 }
 
-struct StockPortfolio_Previews: PreviewProvider {
-    static var previews: some View {
-        StockData(displaySymbol: "NVDA")
-    }
+func fetchportfolio(ticker: String, completionHandler: @escaping (JSON) -> Void) {
+    AF.request("http://localhost:8080/getPortfolioItem/\(ticker)")
+        .validate()
+        .responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                completionHandler(json)
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+                completionHandler([])
+            }
+        }
 }
 
+func fetchquote(ticker: String, completionHandler: @escaping (JSON) -> Void) {
+    AF.request("http://localhost:8080/quote/\(ticker)")
+        .validate()
+        .responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                completionHandler(json)
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+                completionHandler([])
+            }
+        }
+}
 
-//#Preview {
-//    StockPortfolioView()
-//}
+struct StockPortfolio_Previews: PreviewProvider {
+    static var previews: some View {
+        StockData(displaySymbol: "AAPL")
+    }
+}
