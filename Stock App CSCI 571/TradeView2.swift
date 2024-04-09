@@ -9,19 +9,22 @@ import SwiftUI
 import SwiftyJSON
 import Alamofire
 
-struct TradeView: View {
+struct TradeView2: View {
   var ticker: String
   var name: String
   var cost: Double
+    var quantityIhave:Int
   @State private var money: JSON = JSON()
   @State private var response: Bool = false
   @State private var response2: JSON = JSON()
+  @State private var response3: Bool = false
   @Environment(\.dismiss) var dismiss
   @State private var numberOfShares: String="0"
   @State private var navigateToSuccessView = false
   @State private var showToast = false
   @State private var messageToShow = ""
-  @Binding var shouldReloadData: Bool
+ @Binding var shouldReloadData: Bool
+ @State var isBuying: Bool = true
   var body: some View {
       VStack {
           if navigateToSuccessView{
@@ -33,11 +36,12 @@ struct TradeView: View {
                       .foregroundColor(.white)
                       .padding(.bottom,12)
                       
-                  Text("You have successfully bought \(numberOfShares) shares of \(ticker)").foregroundColor(.white)
-                  Spacer()
-                  Button(action: { 
+                  Text("You have successfully \(isBuying ? "bought" : "sold") \(numberOfShares) shares of \(ticker)").foregroundColor(.white)
+                                      Spacer()
+                  Button(action: {
                       shouldReloadData.toggle()
-                      dismiss()}, label: {
+                      dismiss()
+                  }, label: {
                       Text("Done")
                           .foregroundColor(.green)
                           .frame(width: 330,height: 50)
@@ -80,19 +84,19 @@ struct TradeView: View {
                               messageToShow = "Please enter a valid amount"
                           } else {
                               let totalValue = cost*(Double(numberOfShares) ?? 0)
-                              tradeTicker(ticker: ticker, quantity: Int(numberOfShares) ?? 0, name: name, totalCost: totalValue, avgCost: cost){
+                              tradeTicker2(ticker: ticker, quantity: Int(numberOfShares) ?? 0, name: name, totalCost: totalValue, avgCost: cost){
                                   success in
                                   response = success
                                   if success{
                                       navigateToSuccessView = true
-//                                      shouldReloadData.toggle()
+                                      
                                   }
                                   else{
                                       print(response)
                                   }
                               }
                               let moneyLeft = money.doubleValue - totalValue
-                              updateMoney(moneyLeft: moneyLeft){
+                              updateMoney2(moneyLeft: moneyLeft){
                                   success in
                                   response2 = success
                                   print(success)
@@ -104,12 +108,37 @@ struct TradeView: View {
                               .frame(width: 170,height: 50)
                               .background(Color.green)
                               .cornerRadius(23)
-                          
                       })
                       Spacer()
                       Button(action: {
+                          if Int(numberOfShares) ?? 0 == 0 {
                                               showToast = true
-                          messageToShow = "Not enough to sell"
+                              messageToShow = "Please enter a valid amount"
+                          }
+                          else if quantityIhave<Int(numberOfShares) ?? 0{
+                              showToast = true
+                              messageToShow = "Not enough to sell"
+                          }
+                          else{
+                              sellTicker2(ticker: ticker, quantity: Int(numberOfShares) ?? 0, price: cost) {
+                                  success in
+                                  response3 = success
+                                  if success{
+                                      isBuying.toggle()
+                                      navigateToSuccessView = true
+                                  }
+                                  else{
+                                      print(response)
+                                  }
+                              }
+                              let totalValue = cost*(Double(numberOfShares) ?? 0)
+                              let moneyLeft = money.doubleValue + totalValue
+                              updateMoney2(moneyLeft: moneyLeft){
+                                  success in
+                                  response2 = success
+                                  print(success)
+                              }
+                          }
                       }, label: {
                           Text("Sell")
                               .foregroundColor(.white)
@@ -134,18 +163,18 @@ struct TradeView: View {
           }
       }
     }.onAppear{
-        fetchMoney()
+        fetchMoney2()
             { json in
                 money = json
                 print(money)
             }
     }
     .overlay(
-                Toast(isShowing: $showToast, message: messageToShow)
+                Toast2 (isShowing: $showToast, message: "Please enter a valid amount")
             )
   }
 }
-func fetchMoney( completionHandler: @escaping (JSON) -> Void) {
+func fetchMoney2( completionHandler: @escaping (JSON) -> Void) {
     AF.request("http://localhost:8080/getMoney")
         .validate()
         .responseJSON { response in
@@ -160,7 +189,7 @@ func fetchMoney( completionHandler: @escaping (JSON) -> Void) {
         }
 }
 
-func tradeTicker(ticker: String, quantity: Int, name: String, totalCost: Double, avgCost: Double, completionHandler: @escaping (Bool) -> Void) {
+func tradeTicker2(ticker: String, quantity: Int, name: String, totalCost: Double, avgCost: Double, completionHandler: @escaping (Bool) -> Void) {
     let parameters: [String: Any] = [
         "totalCost": totalCost,
         "ticker": ticker,
@@ -168,7 +197,7 @@ func tradeTicker(ticker: String, quantity: Int, name: String, totalCost: Double,
         "name": name,
         "avgCost": avgCost
     ]
-    AF.request("http://localhost:8080/makeportfolio", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+    AF.request("http://localhost:8080/updatePortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
         .validate()
         .response { response in
             switch response.result {
@@ -181,7 +210,8 @@ func tradeTicker(ticker: String, quantity: Int, name: String, totalCost: Double,
         }
 }
 
-func updateMoney(moneyLeft:Double ,completionHandler: @escaping (JSON) -> Void) {
+  
+func updateMoney2(moneyLeft:Double ,completionHandler: @escaping (JSON) -> Void) {
     AF.request("http://localhost:8080/updateMoney/\(moneyLeft)", method: .post)
         .validate()
         .responseJSON { response in
@@ -196,7 +226,25 @@ func updateMoney(moneyLeft:Double ,completionHandler: @escaping (JSON) -> Void) 
         }
 }
 
-struct Toast: View {
+func sellTicker2(ticker: String, quantity: Int,price:Double, completionHandler: @escaping (Bool) -> Void) {
+    let parameters: [String: Any] = [
+        "price": price,
+        "quantity": quantity,
+    ]
+    AF.request("http://localhost:8080/sellPortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        .validate()
+        .response { response in
+            switch response.result {
+            case .success:
+                completionHandler(true)
+            case .failure(let error):
+                print("Error trading: \(error)")
+                completionHandler(false)
+            }
+        }
+}
+
+struct Toast2: View {
     @Binding var isShowing: Bool
     var message: String
     

@@ -34,6 +34,7 @@
 		40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */; };
 		40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFB2BC3223B0023FDE1 /* app icon.png */; };
 		40F743BF2BC462C400A3B0A0 /* TradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F743BE2BC462C400A3B0A0 /* TradeView.swift */; };
+		40F743C12BC4FF7900A3B0A0 /* TradeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "f_logo_RGB-Blue_144.png"; path = "../../Images_iOS/f_logo_RGB-Blue_144.png"; sourceTree = "<group>"; };
 		40898BFB2BC3223B0023FDE1 /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app icon.png"; path = "../../Images_iOS/app icon.png"; sourceTree = "<group>"; };
 		40F743BE2BC462C400A3B0A0 /* TradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeView.swift; sourceTree = "<group>"; };
+		40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeView2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				40898BF22BC1C3A70023FDE1 /* NewsView.swift */,
 				40898BF72BC228540023FDE1 /* SheetView.swift */,
 				40F743BE2BC462C400A3B0A0 /* TradeView.swift */,
+				40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40F743C12BC4FF7900A3B0A0 /* TradeView2.swift in Sources */,
 				40898BE72BC094380023FDE1 /* StatView.swift in Sources */,
 				40898BEB2BC0D55B0023FDE1 /* InsightsView.swift in Sources */,
 				40898BF82BC228540023FDE1 /* SheetView.swift in Sources */,

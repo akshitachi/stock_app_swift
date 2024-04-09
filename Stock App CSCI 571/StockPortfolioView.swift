@@ -16,7 +16,8 @@ struct StockPortfolio: View {
     @State private var portfolioData: JSON = JSON()
     @State private var quoteData: JSON = JSON()
     @State private var showTradeSheet = false
-    
+    @State private var showTradeSheet2 = false
+    @State private var shouldReloadData = false
     var body: some View {
         VStack(alignment: .leading) {
                 Text("Portfolio")
@@ -42,20 +43,27 @@ struct StockPortfolio: View {
                                 let change = portfolioData["avgCost"].doubleValue - quoteData["quote"]["c"].doubleValue
                                 let roundedChange = String(format: "%.2f", change)
                                 Text("$\(roundedChange)")
+                                    .foregroundColor(change > 0 ? .green : (change < 0 ? .red : .black))
                             }.padding(.bottom,15)
                             HStack{
                                 Text("Market Value: ").bold()
+                                let change = portfolioData["avgCost"].doubleValue - quoteData["quote"]["c"].doubleValue
                                 Text("$\(quoteData["quote"]["c"])")
+                                    .foregroundColor(change > 0 ? .green : (change < 0 ? .red : .black))
                             }.padding(.bottom,15)
                         }
                                             Spacer()
-                        Button(action: {}, label: {
+                        Button(action: {
+                            showTradeSheet2.toggle()
+                        }){
                             Text("Trade")
                                 .foregroundColor(.white)
                                 .frame(width: 140,height: 50)
                                 .background(Color.green)
                                 .cornerRadius(23)
-                        })
+                        }.sheet(isPresented: $showTradeSheet2){
+                            TradeView2(ticker:ticker,name:String("\(quoteData["profile"]["name"])"),cost: quoteData["quote"]["c"].doubleValue, quantityIhave: portfolioData["quantity"].intValue,shouldReloadData: $shouldReloadData)
+                        }
                     }.padding()
                 } else {
                     HStack{
@@ -75,7 +83,7 @@ struct StockPortfolio: View {
                                 .background(Color.green)
                                 .cornerRadius(23)
                         }.sheet(isPresented: $showTradeSheet){
-                            TradeView(ticker:ticker,name:String("\(quoteData["profile"]["name"])"),cost: quoteData["quote"]["c"].doubleValue)
+                            TradeView(ticker:ticker,name:String("\(quoteData["profile"]["name"])"),cost: quoteData["quote"]["c"].doubleValue,shouldReloadData: $shouldReloadData)
                         }
                     }.padding()
                 }
@@ -90,7 +98,16 @@ struct StockPortfolio: View {
                 print(quoteData)
             }
         }
-        
+        .onChange(of: shouldReloadData) { _ in
+            print(shouldReloadData)
+                    // Reload data when shouldReloadData changes
+                    fetchportfolio(ticker: ticker) { json in
+                        portfolioData = json
+                    }
+                    fetchquote(ticker: ticker) { json in
+                        quoteData = json
+                    }
+                }
     }
 }
 
