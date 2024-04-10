@@ -33,7 +33,8 @@ struct TradeView: View {
                       .foregroundColor(.white)
                       .padding(.bottom,12)
                       
-                  Text("You have successfully bought \(numberOfShares) shares of \(ticker)").foregroundColor(.white)
+                  Text("You have successfully bought \(numberOfShares) \(Int(numberOfShares) == 1 ? "share" : "shares") of \(ticker)").foregroundColor(.white)
+
                   Spacer()
                   Button(action: { 
                       shouldReloadData.toggle()

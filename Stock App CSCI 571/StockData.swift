@@ -44,7 +44,6 @@ struct HighchartsView2: UIViewRepresentable {
         if let htmlPath = Bundle.main.path(forResource: htmlFileName, ofType: "html") {
             do {
                 var htmlString = try String(contentsOfFile: htmlPath)
-                // Inject displaySymbol into HTML file
                 htmlString = htmlString.replacingOccurrences(of: "{{ symbol }}", with: displaySymbol)
                 htmlString = htmlString.replacingOccurrences(of: "{{ color }}", with: color)
                 webView.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
@@ -63,6 +62,7 @@ struct HighchartsView2: UIViewRepresentable {
 struct StockData: View {
     let displaySymbol:String
     @State private var stockData: JSON = JSON()
+    @State private var watchlist: JSON = JSON()
     @State private var isLoading = true
     @State private var selectedTab = 0
     @State private var aggregatedMspr: Double = 0
@@ -72,6 +72,8 @@ struct StockData: View {
     @State private var positiveChange: Int = 0
     @State private var negativeChange: Int = 0
     @State private var newsList: [NewsItem] = []
+    @State private var showToast = false
+    @State private var isButtonTapped = false
     
     var body: some View {
         VStack {
@@ -88,7 +90,6 @@ struct StockData: View {
                             Text("\(stockData["profile"]["name"])")
                                 .font(.body)
                                 .foregroundColor(.secondary)
-                            
                             HStack {
                                 Text("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
                                     .foregroundColor(.primary)
@@ -109,6 +110,17 @@ struct StockData: View {
                         }
                         .navigationBarTitle(displaySymbol)
                         .padding()
+                        .navigationBarItems(trailing:
+                                        Button(action: {
+                                            // Handle the action when the button is tapped
+                                        }) {
+                                            Image(systemName: watchlist.boolValue ? "plus.circle.fill" : "plus.circle")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 24, height: 24)
+                                                .foregroundColor(.blue)
+                                        }
+                                    )
                         TabView {
                             HighchartsView(htmlFileName: "index", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue))
                                 .tabItem {
@@ -186,7 +198,11 @@ struct StockData: View {
                            }
                        }
                 }
-                print(newsList)
+                checkWatchlist(searchText: displaySymbol){
+                    json in
+                    watchlist = json
+                    isButtonTapped = watchlist.boolValue
+                }
                 isLoading = false
             }
         }
@@ -241,6 +257,23 @@ func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> V
             }
         }
 }
+
+
+func checkWatchlist(searchText: String, completionHandler: @escaping (JSON) -> Void) {
+    AF.request("http://localhost:8080/watchlistCheck/\(searchText)")
+        .validate()
+        .responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                completionHandler(json)
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+                completionHandler([])
+            }
+        }
+}
+
 struct StockData_Previews : PreviewProvider {
     static var previews : some View {
        StockData(displaySymbol: "AAPL")

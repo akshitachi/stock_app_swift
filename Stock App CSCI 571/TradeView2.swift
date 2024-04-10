@@ -36,7 +36,7 @@ struct TradeView2: View {
                       .foregroundColor(.white)
                       .padding(.bottom,12)
                       
-                  Text("You have successfully \(isBuying ? "bought" : "sold") \(numberOfShares) shares of \(ticker)").foregroundColor(.white)
+                  Text("You have successfully \(isBuying ? "bought" : "sold") \(numberOfShares) \(numberOfShares == "1" ? "share" : "shares") of \(ticker)").foregroundColor(.white)
                                       Spacer()
                   Button(action: {
                       shouldReloadData.toggle()
@@ -115,7 +115,8 @@ struct TradeView2: View {
                                               showToast = true
                               messageToShow = "Please enter a valid amount"
                           }
-                          else if quantityIhave<Int(numberOfShares) ?? 0{
+                          
+                          else if (quantityIhave<(Int(numberOfShares) ?? 0)){
                               showToast = true
                               messageToShow = "Not enough to sell"
                           }
@@ -163,6 +164,7 @@ struct TradeView2: View {
           }
       }
     }.onAppear{
+        print(quantityIhave)
         fetchMoney2()
             { json in
                 money = json
@@ -170,7 +172,7 @@ struct TradeView2: View {
             }
     }
     .overlay(
-                Toast2 (isShowing: $showToast, message: "Please enter a valid amount")
+                Toast2 (isShowing: $showToast, message: messageToShow)
             )
   }
 }

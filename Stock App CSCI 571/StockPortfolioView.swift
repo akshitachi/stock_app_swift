@@ -18,6 +18,7 @@ struct StockPortfolio: View {
     @State private var showTradeSheet = false
     @State private var showTradeSheet2 = false
     @State private var shouldReloadData = false
+    let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
     var body: some View {
         VStack(alignment: .leading) {
                 Text("Portfolio")
@@ -31,12 +32,15 @@ struct StockPortfolio: View {
                                 Text("\(portfolioData["quantity"])")
                             }.padding(.bottom,15)
                             HStack{
+                                let avgCost = portfolioData["avgCost"].doubleValue
+                                let roundedAvgCost = String(format: "%.2f", avgCost)
                                 Text("Avg. Cost / Share: ").bold()
-                            Text("$\(portfolioData["avgCost"])")
+                            Text("$\(roundedAvgCost)")
                             }.padding(.bottom,15)
-          
+                            let totalCost = portfolioData["totalCost"].doubleValue
+                            let roundedTotalCost = String(format: "%.2f", totalCost)
                             HStack{Text("Total Cost:").bold()
-                                Text("$\(portfolioData["totalCost"])")
+                                Text("$\(roundedTotalCost)")
                             }.padding(.bottom,15)
                             HStack{
                                 Text("Change: ").bold()
@@ -91,16 +95,23 @@ struct StockPortfolio: View {
         .onAppear{
             fetchportfolio(ticker: ticker) { json in
                 portfolioData = json
-//                print(portfolioData)
             }
             fetchquote(ticker: ticker) { json in
                 quoteData = json
                 print(quoteData)
             }
         }
+        .onReceive(timer) { _ in
+            fetchportfolio(ticker: ticker) { json in
+                portfolioData = json
+            }
+            fetchquote(ticker: ticker) { json in
+                quoteData = json
+                print(quoteData)
+            }
+                }
         .onChange(of: shouldReloadData) { _ in
             print(shouldReloadData)
-                    // Reload data when shouldReloadData changes
                     fetchportfolio(ticker: ticker) { json in
                         portfolioData = json
                     }
