@@ -73,6 +73,7 @@ struct StockData: View {
     @State private var negativeChange: Int = 0
     @State private var newsList: [NewsItem] = []
     @State private var showToast = false
+    @State private var messageToShow = ""
     @State private var isButtonTapped = false
     
     var body: some View {
@@ -112,7 +113,24 @@ struct StockData: View {
                         .padding()
                         .navigationBarItems(trailing:
                                         Button(action: {
-                                            // Handle the action when the button is tapped
+                            if !watchlist.boolValue{
+                                addWatchlist(searchText: displaySymbol){
+                                    json in
+                                    let x = json
+                                }
+                                watchlist.boolValue.toggle()
+                                showToast = true
+                messageToShow = "Adding \(displaySymbol) to Favorites"
+                            }
+                            else{
+                                deleteWatchlist(searchText: displaySymbol){
+                                    json2 in
+                                    let x2 = json2
+                                }
+                                showToast = true
+                messageToShow = "Removing \(displaySymbol) from Favorites"
+                                watchlist.boolValue.toggle()
+                            }
                                         }) {
                                             Image(systemName: watchlist.boolValue ? "plus.circle.fill" : "plus.circle")
                                                 .resizable()
@@ -206,6 +224,9 @@ struct StockData: View {
                 isLoading = false
             }
         }
+          .overlay(
+            Toast(isShowing: $showToast, message: messageToShow)
+        )
     }
 
     }
@@ -274,6 +295,33 @@ func checkWatchlist(searchText: String, completionHandler: @escaping (JSON) -> V
         }
 }
 
+func addWatchlist(searchText: String, completionHandler: @escaping (Bool) -> Void) {
+    AF.request("http://localhost:8080/watchlist/\(searchText)", method: .post)
+        .validate()
+        .response { response in
+            switch response.result {
+            case .success:
+                completionHandler(true)
+            case .failure(let error):
+                print("Error trading: \(error)")
+                completionHandler(false)
+            }
+        }
+}
+
+func deleteWatchlist(searchText: String, completionHandler: @escaping (Bool) -> Void) {
+    AF.request("http://localhost:8080/watchlistDelete/\(searchText)", method: .delete)
+        .validate()
+        .response { response in
+            switch response.result {
+            case .success:
+                completionHandler(true)
+            case .failure(let error):
+                print("Error trading: \(error)")
+                completionHandler(false)
+            }
+        }
+}
 struct StockData_Previews : PreviewProvider {
     static var previews : some View {
        StockData(displaySymbol: "AAPL")

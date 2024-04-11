@@ -248,7 +248,7 @@ func sellTicker2(ticker: String, quantity: Int,price:Double, completionHandler: 
 
 struct Toast2: View {
     @Binding var isShowing: Bool
-    var message: String
+    var message: String 
     
     var body: some View {
         if isShowing {
