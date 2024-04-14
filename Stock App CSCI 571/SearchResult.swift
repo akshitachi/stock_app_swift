@@ -34,3 +34,13 @@ struct NewsItem {
     let summary: String
     let image: String
 }
+
+struct PortfolioItem {
+    let id: String
+    let name: String
+    let ticker: String
+    let quantity: Int
+    let avgCost: Double
+    let totalCost: Double
+}
+
