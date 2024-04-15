@@ -67,7 +67,7 @@ struct StockData: View {
     @State private var selectedTab = 0
     @State private var aggregatedMspr: Double = 0
     @State private var positiveMspr: Double = 0
-    @State private var negativeMspr: Double = 0 
+    @State private var negativeMspr: Double = 0
     @State private var aggregatedChange: Int = 0
     @State private var positiveChange: Int = 0
     @State private var negativeChange: Int = 0

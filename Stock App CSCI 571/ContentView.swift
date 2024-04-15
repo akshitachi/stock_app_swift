@@ -22,101 +22,147 @@ struct ContentView: View {
     @State private var portfolioData: [PortfolioItem] = []
     @State private var money: JSON = JSON()
     @State private var totalStockValue: Double = 0.0
+    @State private var isLoading = true
+    @State private var watchlistData: [String] = []
+    
     var body: some View {
-            NavigationView {
+        VStack{
+            if isLoading {
                 VStack {
-                    if !searchText.isEmpty {
-                        List(searchResults) { result in
-                            NavigationLink{StockData(displaySymbol: result.displaySymbol)}
-                        label:
-                            {
-                                VStack(alignment: .leading) {
-                                    Text(result.displaySymbol)
-                                        .font(.title2)
-                                        .bold()
-                                        .foregroundColor(.primary)
-                                    Text(result.description)
-                                        .font(.body)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
-                        
-                    }
-                    if searchText.isEmpty {
-                        List {
-                            Section {
-                                Text(currentDateFormatted())
-                                    .font(.title)
-                                    .foregroundColor(.secondary)
-                                    .bold()
-                                    .padding(.vertical, 10)
-                            }
-                            Text("PORTFOLIO")
-                                .font(.callout)
-                                .listRowBackground(Color.ListBGColor)
-                                .foregroundColor(.secondary)
-                            HStack{
-                                VStack(alignment:.leading){
-                                    Text("Net Worth")
-                                        .font(.title2)
-                                    Text("$\(String(format: "%.2f", money.doubleValue+totalStockValue))")
-                                        .font(.title2) 
-                                        .bold()
-                                }
-                                Spacer()
-                                VStack(alignment:.leading){
-                                    Text("Cash Balance")
-                                        .font(.title2)
-                                    Text("$\(String(format: "%.2f", money.doubleValue))")
-                                        .font(.title2)
-                                        .bold()
-                                }
-                            }
-                            ForEach(portfolioData, id: \.id) { item in
-                                StockRow(portfolioItem: item).cornerRadius(10)
-                            }
-                            Section{
-                                Button(action: {
-                                    if let url = URL(string: "https://finnhub.io") {
-                                        UIApplication.shared.open(url)
+                    ProgressView()
+                    Text("Fetching Data...")
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                NavigationView {
+                    VStack {
+                        if !searchText.isEmpty {
+                            List(searchResults) { result in
+                                NavigationLink{StockData(displaySymbol: result.displaySymbol)}
+                            label:
+                                {
+                                    VStack(alignment: .leading) {
+                                        Text(result.displaySymbol)
+                                            .font(.title2)
+                                            .bold()
+                                            .foregroundColor(.primary)
+                                        Text(result.description)
+                                            .font(.body)
+                                            .foregroundColor(.secondary)
                                     }
-                                }) {
-                                    Text("Powered by finnhub.io")
-                                        .font(.footnote)
+                                }
+                            }
+                            
+                        }
+                        if searchText.isEmpty {
+                            List {
+                                Section {
+                                    Text(currentDateFormatted())
+                                        .font(.title)
                                         .foregroundColor(.secondary)
+                                        .bold()
                                         .padding(.vertical, 10)
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                }
+                                Text("PORTFOLIO")
+                                    .font(.callout)
+                                    .listRowBackground(Color.ListBGColor)
+                                    .foregroundColor(.secondary)
+                                HStack{
+                                    VStack(alignment:.leading){
+                                        Text("Net Worth")
+                                            .font(.title2)
+                                        Text("$\(String(format: "%.2f", money.doubleValue+totalStockValue))")
+                                            .font(.title2)
+                                            .bold()
+                                    }
+                                    Spacer()
+                                    VStack(alignment:.leading){
+                                        Text("Cash Balance")
+                                            .font(.title2)
+                                        Text("$\(String(format: "%.2f", money.doubleValue))")
+                                            .font(.title2)
+                                            .bold()
+                                    }
+                                }
+                                ForEach($portfolioData, id: \.id,editActions: .move) { $item in
+                                    NavigationLink{StockData(displaySymbol: item.ticker)}
+                                label:{
+                                    StockRow(portfolioItem: item).cornerRadius(10)
+                                }
+                                }
+                                Text("FAVORITES")
+                                    .font(.callout)
+                                    .listRowBackground(Color.ListBGColor)
+                                    .foregroundColor(.secondary)
+                                ForEach($watchlistData, id: \.self) {
+                                    $symbol in
+                                    NavigationLink{StockData(displaySymbol: symbol)}
+                                label:{
+                                    FavoriteStockRow(symbol: symbol)
+                                }
+                                }.onDelete(perform: deleteItem)
+                                    .onMove(perform: move)
+                                Section{
+                                    Button(action: {
+                                        if let url = URL(string: "https://finnhub.io") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }) {
+                                        Text("Powered by finnhub.io")
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                            .padding(.vertical, 10)
+                                            .frame(maxWidth: .infinity, alignment: .center)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                .navigationTitle("Stocks")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        EditButton()
-                    }
-                }
-                .searchable(text: $searchText)
-                .onChange(of: searchText) { newSearchText in
-                    debounceTimer?.invalidate()
-                    debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
-                        fetchAutocompleteResults(searchText: newSearchText) { results in
-                            searchResults = results
+                    .navigationTitle("Stocks")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            EditButton()
                         }
                     }
-                }.onAppear {
-                    fetchPortfolioData { portfolioItems in
-                        portfolioData = portfolioItems
-                        totalStockValue = portfolioItems.reduce(0.0) { $0 + $1.totalCost }
-                    }
-                    fetchMoney()
-                        { json in
-                            money = json
+                    .searchable(text: $searchText)
+                    .onChange(of: searchText) { newSearchText in
+                        debounceTimer?.invalidate()
+                        debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
+                            fetchAutocompleteResults(searchText: newSearchText) { results in
+                                searchResults = results
+                            }
                         }
+                    }
+                }
             }
+        }.onAppear {
+            fetchPortfolioData() { portfolioItems in
+                portfolioData = portfolioItems
+                totalStockValue = portfolioItems.reduce(0.0) { $0 + $1.totalCost }
+            }
+            fetchWatchlist(){watchlistItem in
+            watchlistData = watchlistItem.arrayObject as? [String] ?? []
+            print(watchlistData)
+            }
+            fetchMoney()
+            { json in
+                money = json
+                isLoading = false
+            }
+            
         }
+    }
+    func deleteItem(at offsets: IndexSet) {
+        let symbolsToDelete = offsets.map { watchlistData[$0] }
+        print("Deleted symbols: \(symbolsToDelete[0])")
+        deleteWatchlist(searchText: symbolsToDelete[0]){
+            json2 in
+            let x2 = json2
+        }
+        watchlistData.remove(atOffsets: offsets)
+    }
+    func move(source: IndexSet, destination: Int){
+        watchlistData.move(fromOffsets: source, toOffset: destination)
     }
     }
 
@@ -181,8 +227,6 @@ func fetchPortfolioData(completionHandler: @escaping ([PortfolioItem]) -> Void) 
         }
 }
 
-
-
 func parseJSON(_ json: JSON) -> [SearchResult] {
     var results: [SearchResult] = []
     
@@ -208,6 +252,8 @@ func parseJSON(_ json: JSON) -> [SearchResult] {
     
     return results
 }
+
+
 
 func currentDateFormatted() -> String {
     let dateFormatter = DateFormatter()
@@ -263,10 +309,13 @@ struct StockRow: View {
                                 let changePercentage = (changeInValue*100)/portfolioItem.totalCost
                                 Image(systemName: arrowImageName(for: changeInValue))
                                     .foregroundColor(changeColor(changeInValue))
+                                    
                                 Text("$\(String(format: "%.2f",changeInValue))")
                                     .foregroundColor(changeColor(changeInValue))
+                               
                                 Text("(\(String(format: "%.2f",changePercentage))%)")
                                     .foregroundColor(changeColor(changeInValue))
+                             
                             }
                         }
                     }
@@ -282,7 +331,7 @@ struct StockRow: View {
                 }
         }
         }
-    
+
 }
 
 func fetchStockData2(searchText: String, completionHandler: @escaping (JSON) -> Void) {
@@ -300,21 +349,68 @@ func fetchStockData2(searchText: String, completionHandler: @escaping (JSON) -> 
         }
 }
 
+func fetchWatchlist(completionHandler: @escaping (JSON) -> Void) {
+    AF.request("http://localhost:8080/getWatchlist")
+        .validate()
+        .responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                completionHandler(json)
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+                completionHandler([])
+            }
+        }
+}
+
 
 struct FavoriteStockRow: View {
     let symbol: String
-    let currentPrice: String
-    let changeInPrice: String
-    let changeInPricePercentage: String
+    @State private var stockData: JSON = JSON()
+    @State private var isLoading = true
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Symbol: \(symbol)")
-            Text("Current Price: \(currentPrice)")
-            Text("Change In Price: \(changeInPrice)")
-            Text("Change In Price Percentage: \(changeInPricePercentage)")
-        }
-    }
+        VStack{
+            if isLoading {
+                Text("")
+            }
+            else{
+                HStack {
+                    VStack(alignment:.leading){
+                        Text("\(symbol)")
+                            .font(.title3)
+                            .bold()
+                        Text("\(stockData["profile"]["name"])")
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing){
+                        Text("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
+                            .bold()
+                        HStack{
+                            Image(systemName: arrowImageName(for: stockData["quote"]["dp"].doubleValue))
+                                .foregroundColor(changeColor(stockData["quote"]["d"].doubleValue))
+                                .font(.callout)
+                            Text("$\(String(format: "%.2f",stockData["quote"]["d"].doubleValue))")
+                                .foregroundColor(changeColor(stockData["quote"]["d"].doubleValue))
+                                .font(.callout)
+                            Text("(\(String(format: "%.2f",stockData["quote"]["dp"].doubleValue))%)")
+                                .foregroundColor(changeColor(stockData["quote"]["d"].doubleValue))
+                                .font(.callout)
+                        }
+                    }
+                }
+            }
+            }
+                .onAppear{
+                    fetchStockData2(searchText: symbol) { json in
+                        stockData = json
+
+                        isLoading = false
+                    }
+                }
+            }
 }
 
 struct ContentView_Previews: PreviewProvider {
