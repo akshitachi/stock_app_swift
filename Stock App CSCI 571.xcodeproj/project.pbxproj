@@ -32,7 +32,8 @@
 		40898BF82BC228540023FDE1 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40898BF72BC228540023FDE1 /* SheetView.swift */; };
 		40898BFC2BC3223B0023FDE1 /* sl_z_072523_61700_05.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */; };
 		40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */; };
-		40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 40898BFB2BC3223B0023FDE1 /* app icon.png */; };
+		409E7EAB2BCCD11400A2D50E /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 409E7EAA2BCCD11400A2D50E /* app_icon.png */; };
+		409E7EAD2BCCD27F00A2D50E /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409E7EAC2BCCD27F00A2D50E /* Launch Screen.storyboard */; };
 		40F743BF2BC462C400A3B0A0 /* TradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F743BE2BC462C400A3B0A0 /* TradeView.swift */; };
 		40F743C12BC4FF7900A3B0A0 /* TradeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */; };
 /* End PBXBuildFile section */
@@ -79,7 +80,8 @@
 		40898BF72BC228540023FDE1 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sl_z_072523_61700_05.jpg; path = ../../Images_iOS/sl_z_072523_61700_05.jpg; sourceTree = "<group>"; };
 		40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "f_logo_RGB-Blue_144.png"; path = "../../Images_iOS/f_logo_RGB-Blue_144.png"; sourceTree = "<group>"; };
-		40898BFB2BC3223B0023FDE1 /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app icon.png"; path = "../../Images_iOS/app icon.png"; sourceTree = "<group>"; };
+		409E7EAA2BCCD11400A2D50E /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = app_icon.png; path = ../../../../../app_icon.png; sourceTree = "<group>"; };
+		409E7EAC2BCCD27F00A2D50E /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		40F743BE2BC462C400A3B0A0 /* TradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeView.swift; sourceTree = "<group>"; };
 		40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeView2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,7 +141,7 @@
 				4065F4A62BBB5D610038635C /* Stock_App_CSCI_571App.swift */,
 				4065F4A82BBB5D610038635C /* ContentView.swift */,
 				4065F4AA2BBB5D630038635C /* Assets.xcassets */,
-				40898BFB2BC3223B0023FDE1 /* app icon.png */,
+				409E7EAA2BCCD11400A2D50E /* app_icon.png */,
 				40898BFA2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png */,
 				40898BF92BC3223A0023FDE1 /* sl_z_072523_61700_05.jpg */,
 				4065F4AC2BBB5D630038635C /* Preview Content */,
@@ -157,6 +159,7 @@
 				40898BF72BC228540023FDE1 /* SheetView.swift */,
 				40F743BE2BC462C400A3B0A0 /* TradeView.swift */,
 				40F743C02BC4FF7900A3B0A0 /* TradeView2.swift */,
+				409E7EAC2BCCD27F00A2D50E /* Launch Screen.storyboard */,
 			);
 			path = "Stock App CSCI 571";
 			sourceTree = "<group>";
@@ -307,8 +310,9 @@
 				40898BEF2BC101450023FDE1 /* earnings.html in Resources */,
 				40898BDF2BBF9A340023FDE1 /* index.html in Resources */,
 				4065F4AE2BBB5D630038635C /* Preview Assets.xcassets in Resources */,
-				40898BFE2BC3223B0023FDE1 /* app icon.png in Resources */,
+				409E7EAB2BCCD11400A2D50E /* app_icon.png in Resources */,
 				4065F4AB2BBB5D630038635C /* Assets.xcassets in Resources */,
+				409E7EAD2BCCD27F00A2D50E /* Launch Screen.storyboard in Resources */,
 				40898BFD2BC3223B0023FDE1 /* f_logo_RGB-Blue_144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +519,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -544,6 +549,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
