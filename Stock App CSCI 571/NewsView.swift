@@ -104,20 +104,25 @@ struct NewsView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(.primary)
                                 .multilineTextAlignment(.leading)
-                            Divider()
+                            
                         }
-                        .padding(.horizontal)
+                        .padding(.leading,10)
+                       
+                        Spacer()
+                      
                         KFImage(URL(string: newsItem.image))
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: UIScreen.main.bounds.width - 280, height: 100)
+                            .frame(width: UIScreen.main.bounds.width - 320, height: 80)
                             .cornerRadius(10)
+                            .padding(.trailing,10)
                     }
                     .sheet(isPresented: isSheetPresented)
                     {
                         SheetView(source: newsItem.source,headline: newsItem.headline,datetime: formattedDate,summary: newsItem.summary,url:newsItem.url)
                     }
             }
+                Divider()
             }
         }
         .padding()

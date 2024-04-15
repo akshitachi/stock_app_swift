@@ -91,6 +91,7 @@ struct StockData: View {
                             Text("\(stockData["profile"]["name"])")
                                 .font(.body)
                                 .foregroundColor(.secondary)
+                                .padding(.leading,15)
                             HStack {
                                 Text("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
                                     .foregroundColor(.primary)
@@ -108,6 +109,7 @@ struct StockData: View {
                                 Spacer()
                             }
                             .padding(.top, 10)
+                            .padding(.leading,15)
                         }
                         .navigationBarTitle(displaySymbol)
                         .padding()
@@ -153,23 +155,28 @@ struct StockData: View {
                         }
                         .frame(height: 460)
                         StockPortfolio(ticker: displaySymbol)
+                            .padding(.leading,15)
                         let stats = StockStats(
                             highPrice: String("$\(String(format: "%.2f", stockData["quote"]["h"].doubleValue))"),
                                                     openPrice: String("$\(String(format: "%.2f", stockData["quote"]["o"].doubleValue))"),
                                                     lowPrice: String("$\(String(format: "%.2f", stockData["quote"]["l"].doubleValue))"),
                                                     previousClose: String("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
                                                 )
-                        StockStatsView(stats:stats)
+                        StockStatsView(stats:stats).padding(.leading,15)
                         AboutView(companyName: stockData["profile"]["name"].stringValue,
                                                           ipoDate: stockData["profile"]["ipo"].stringValue,
                                                           industry: stockData["profile"]["finnhubIndustry"].stringValue,
                                                           webpage: stockData["profile"]["weburl"].stringValue,
                                                           peers: stockData["peers"].arrayValue.map { $0.stringValue }
-                        )
+                        ).padding(.leading,15)
                         InsightsView(totalMSPR: aggregatedMspr, positiveMSPR: positiveMspr, negativeMSPR: negativeMspr, totalChange: aggregatedChange, positiveChange: positiveChange, negativeChange: negativeChange,ticker: "\(stockData["profile"]["name"])")
+                            .padding(.leading,15)
                         HighchartsView(htmlFileName: "recommendation", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 420)
+                            .padding(.leading,15)
                         HighchartsView(htmlFileName: "earnings", displaySymbol: displaySymbol, color: changeColor2(stockData["quote"]["d"].doubleValue)).frame(height: 420)
+                            .padding(.leading,15)
                         NewsView(news: newsList)
+                            .padding(.leading,10)
                     }
                 }
             }
