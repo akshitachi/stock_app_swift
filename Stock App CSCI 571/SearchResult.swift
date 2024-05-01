@@ -36,21 +36,11 @@ struct NewsItem {
 }
 
 struct PortfolioItem {
-//    let orderIndex: Int?
     let id: String
     let name: String
     let ticker: String
     let quantity: Int
     let avgCost: Double
     let totalCost: Double
-//    init() {
-//        self.orderIndex = nil
-//        self.id = ""
-//        self.name = ""
-//        self.ticker = ""
-//        self.quantity = 0
-//        self.avgCost = 0.00
-//        self.totalCost = 0.00
-//    }
 }
 

@@ -122,7 +122,7 @@ struct StockData: View {
                                 }
                                 watchlist.boolValue.toggle()
                                 showToast = true
-                messageToShow = "Adding \(displaySymbol) to Favorites"
+                messageToShow = "Added \(displaySymbol) to Favorites"
                             }
                             else{
                                 deleteWatchlist(searchText: displaySymbol){

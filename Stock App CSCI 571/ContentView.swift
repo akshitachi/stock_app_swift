@@ -24,6 +24,7 @@ struct ContentView: View {
     @State private var totalStockValue: Double = 0.0
     @State private var isLoading = true
     @State private var watchlistData: [String] = []
+    let refreshInterval: TimeInterval = 15
     
     var body: some View {
         VStack{
@@ -108,7 +109,7 @@ struct ContentView: View {
                                             UIApplication.shared.open(url)
                                         }
                                     }) {
-                                        Text("Powered by finnhub.io")
+                                        Text("Powered By Finnhub.io")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
                                             .padding(.vertical, 10)
@@ -149,6 +150,21 @@ struct ContentView: View {
                 money = json
                 isLoading = false
             }
+            Timer.scheduledTimer(withTimeInterval: refreshInterval, repeats: true) { _ in
+                fetchPortfolioData() { portfolioItems in
+                    portfolioData = portfolioItems
+                    totalStockValue = portfolioItems.reduce(0.0) { $0 + $1.totalCost }
+                }
+                fetchWatchlist(){watchlistItem in
+                watchlistData = watchlistItem.arrayObject as? [String] ?? []
+                print(watchlistData)
+                }
+                fetchMoney()
+                { json in
+                    money = json
+                    isLoading = false
+                }
+                        }
             
         }
     }
