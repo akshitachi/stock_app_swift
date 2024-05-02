@@ -24,7 +24,7 @@ struct ContentView: View {
     @State private var totalStockValue: Double = 0.0
     @State private var isLoading = true
     @State private var watchlistData: [String] = []
-    let refreshInterval: TimeInterval = 15
+    let refreshInterval: TimeInterval = 10
     
     var body: some View {
         VStack{
