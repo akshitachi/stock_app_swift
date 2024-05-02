@@ -14,7 +14,7 @@
             const earningsChart = document.getElementById('earningsChart');
             const ticker = '{{ symbol }}';
             const color = '{{ color }}';
-            fetch(`http://localhost:8080/getEarningsChart/${ticker}`, {
+            fetch(`https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getEarningsChart/${ticker}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

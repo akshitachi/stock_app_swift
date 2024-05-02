@@ -183,7 +183,7 @@ struct ContentView: View {
     }
 
 func fetchAutocompleteResults(searchText: String, completionHandler: @escaping ([SearchResult]) -> Void) {
-    AF.request("http://localhost:8080/autocomplete/\(searchText)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/autocomplete/\(searchText)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -212,7 +212,7 @@ func fetchAutocompleteResults(searchText: String, completionHandler: @escaping (
 
 
 func fetchPortfolioData(completionHandler: @escaping ([PortfolioItem]) -> Void) {
-    AF.request("http://localhost:8080/getPortfolio")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getPortfolio")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -351,7 +351,7 @@ struct StockRow: View {
 }
 
 func fetchStockData2(searchText: String, completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/search/\(searchText)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/search/\(searchText)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -366,7 +366,7 @@ func fetchStockData2(searchText: String, completionHandler: @escaping (JSON) -> 
 }
 
 func fetchWatchlist(completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/getWatchlist")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getWatchlist")
         .validate()
         .responseJSON { response in
             switch response.result {

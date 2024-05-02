@@ -18,7 +18,7 @@
 
     const ticker = '{{ symbol }}';
     const color = '{{ color }}';
-    axios.get(`http://localhost:8080/getRecommendationChart/${ticker}`)
+    axios.get(`https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getRecommendationChart/${ticker}`)
       .then(response => {
         const recommendationData = response.data;
         if (recommendationData) {

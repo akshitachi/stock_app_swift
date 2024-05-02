@@ -9,6 +9,7 @@ import SwiftUI
 import Alamofire
 import SwiftyJSON
 import WebKit
+import Kingfisher
 
 struct HighchartsView: UIViewRepresentable {
     let htmlFileName: String
@@ -88,10 +89,31 @@ struct StockData: View {
                 ScrollView{
                     VStack{
                         VStack(alignment: .leading) {
-                            Text("\(stockData["profile"]["name"])")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                                .padding(.leading,15)
+                            HStack{
+                                Text("\(stockData["profile"]["name"])")
+                                    .font(.body)
+                                    .foregroundColor(.secondary)
+                                    .padding(.leading,15)
+                                Spacer()
+                                AsyncImage(url: URL(string: stockData["profile"]["logo"].stringValue)) { phase in
+                                    switch phase {
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    case .failure(_):
+                                        Color.red // Placeholder color for failure case
+                                    case .empty:
+                                        Color.blue // Placeholder color for empty case
+                                    @unknown default:
+                                        Color.blue // Placeholder color for unknown cases
+                                    }
+                                }
+                                .frame(width: 70, height: 70)
+                                .clipShape(Circle())
+
+                            }
+                            .padding(.trailing,20)
                             HStack {
                                 Text("$\(String(format: "%.2f", stockData["quote"]["c"].doubleValue))")
                                     .foregroundColor(.primary)
@@ -272,7 +294,7 @@ private func changeColor2(_ value: Double) -> String {
     }
 
 func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/search/\(searchText)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/search/\(searchText)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -288,7 +310,7 @@ func fetchStockData(searchText: String, completionHandler: @escaping (JSON) -> V
 
 
 func checkWatchlist(searchText: String, completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/watchlistCheck/\(searchText)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/watchlistCheck/\(searchText)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -303,7 +325,7 @@ func checkWatchlist(searchText: String, completionHandler: @escaping (JSON) -> V
 }
 
 func addWatchlist(searchText: String, completionHandler: @escaping (Bool) -> Void) {
-    AF.request("http://localhost:8080/watchlist/\(searchText)", method: .post)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/watchlist/\(searchText)", method: .post)
         .validate()
         .response { response in
             switch response.result {
@@ -317,7 +339,7 @@ func addWatchlist(searchText: String, completionHandler: @escaping (Bool) -> Voi
 }
 
 func deleteWatchlist(searchText: String, completionHandler: @escaping (Bool) -> Void) {
-    AF.request("http://localhost:8080/watchlistDelete/\(searchText)", method: .delete)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/watchlistDelete/\(searchText)", method: .delete)
         .validate()
         .response { response in
             switch response.result {

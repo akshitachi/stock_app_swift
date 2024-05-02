@@ -177,7 +177,7 @@ struct TradeView2: View {
   }
 }
 func fetchMoney2( completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/getMoney")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getMoney")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -199,7 +199,7 @@ func tradeTicker2(ticker: String, quantity: Int, name: String, totalCost: Double
         "name": name,
         "avgCost": avgCost
     ]
-    AF.request("http://localhost:8080/updatePortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/updatePortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
         .validate()
         .response { response in
             switch response.result {
@@ -214,7 +214,7 @@ func tradeTicker2(ticker: String, quantity: Int, name: String, totalCost: Double
 
   
 func updateMoney2(moneyLeft:Double ,completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/updateMoney/\(moneyLeft)", method: .post)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/updateMoney/\(moneyLeft)", method: .post)
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -233,7 +233,7 @@ func sellTicker2(ticker: String, quantity: Int,price:Double, completionHandler: 
         "price": price,
         "quantity": quantity,
     ]
-    AF.request("http://localhost:8080/sellPortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/sellPortfolio/\(ticker)", method: .post, parameters: parameters, encoding: JSONEncoding.default)
         .validate()
         .response { response in
             switch response.result {

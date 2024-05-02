@@ -123,7 +123,7 @@ struct StockPortfolio: View {
 }
 
 func fetchportfolio(ticker: String, completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/getPortfolioItem/\(ticker)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/getPortfolioItem/\(ticker)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -138,7 +138,7 @@ func fetchportfolio(ticker: String, completionHandler: @escaping (JSON) -> Void)
 }
 
 func fetchquote(ticker: String, completionHandler: @escaping (JSON) -> Void) {
-    AF.request("http://localhost:8080/quote/\(ticker)")
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/quote/\(ticker)")
         .validate()
         .responseJSON { response in
             switch response.result {
@@ -153,7 +153,7 @@ func fetchquote(ticker: String, completionHandler: @escaping (JSON) -> Void) {
 }
 
 func tradeTicker(completionHandler: @escaping (Bool) -> Void) {
-    AF.request("http://localhost:8080/makeportfolio", method: .post)
+    AF.request("https://assignment3-nodejs-akshil-shah.wl.r.appspot.com/makeportfolio", method: .post)
         .validate()
         .response { response in
             switch response.result {
